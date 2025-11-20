@@ -38,12 +38,12 @@ class FraisForfait
         return $this;
     }
 
-    public function getMotant(): ?string
+    public function getMontant(): ?string
     {
         return $this->motant;
     }
 
-    public function setMotant(?string $motant): static
+    public function setMontant(?string $motant): static
     {
         $this->motant = $motant;
 
