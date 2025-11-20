@@ -35,10 +35,10 @@ class AppFixtures extends Fixture
         $unFraisForfaitNUI->setId('NUI');
         $unFraisForfaitNUI->setLibelle('Forfait Nuitée Hôtel');
         $unFraisForfaitNUI->setMontant(25.00); */
-        $unFraisForfait = $this->setNewObject('ETP', 'Forfait Etape', 110, $manager);
-        $unFraisForfait = $this->setNewObject('KM', 'Forfait Kilométrique', 0.62, $manager);
-        $unFraisForfait = $this->setNewObject('REP', 'Forfait Repas Restaurant', 80.00, $manager);
-        $unFraisForfait = $this->setNewObject('NUI', 'Forfait Nuitée Hôtel', 25.00, $manager);
+        $unFraisForfaitETP = $this->setNewObject('ETP', 'Forfait Etape', 110, $manager);
+        $unFraisForfaitKM = $this->setNewObject('KM', 'Forfait Kilométrique', 0.62, $manager);
+        $unFraisForfaitREP = $this->setNewObject('REP', 'Forfait Repas Restaurant', 80.00, $manager);
+        $unFraisForfaitNUI = $this->setNewObject('NUI', 'Forfait Nuitée Hôtel', 25.00, $manager);
 
         $manager->flush();
     }
