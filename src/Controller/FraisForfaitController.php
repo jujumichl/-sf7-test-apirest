@@ -46,16 +46,15 @@ final class FraisForfaitController extends AbstractController
     function createFraisForfait(Request $request, SerializerInterface $unSerialiseur, EntityManagerInterface $em, URLGeneratorInterface $unUrlGenerateur)
     {
         $contenu = $request->getContent();
-    $unFraisForfait = $unSerialiseur->deserialize($contenu,
-                                      FraisForfait::class, 'json');
-    $em->persist($unFraisForfait);  // rend $unFraisForfait persistant dans l'ORM
-    $em->flush(); // sauvegarde les objets persistants dans la base
+        $unFraisForfait = $unSerialiseur->deserialize($contenu, FraisForfait::class, 'json');
+        $em->persist($unFraisForfait);
+        $em->flush();
 
-    $location = $unUrlGenerateur->generate('fraisforfaits_post', 
+        $location = $unUrlGenerateur->generate('fraisforfaits_post', 
                                 ['id' => $unFraisForfait->getId()],
                                 UrlGeneratorInterface::ABSOLUTE_URL);
 
-
         $result = ["message" => "Nouveau frais forfait créé"];
-    return new JsonResponse($result, JSONResponse::HTTP_CREATED, [], false);    }
+        return new JsonResponse($result, JSONResponse::HTTP_CREATED, [], false);
+    }
 }
