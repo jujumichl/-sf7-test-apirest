@@ -54,7 +54,11 @@ final class FraisForfaitController extends AbstractController
                                 ['id' => $unFraisForfait->getId()],
                                 UrlGeneratorInterface::ABSOLUTE_URL);
 
-        $result = ["message" => "Nouveau frais forfait créé"];
+        $result = ["message" => "Nouveau frais forfait créé",
+                   "data" => [
+                    "_selfLink" => $location
+                    ]
+                ];
         return new JsonResponse($result, JSONResponse::HTTP_CREATED, [], false);
     }
 }
