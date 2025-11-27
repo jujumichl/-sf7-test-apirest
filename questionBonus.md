@@ -1,5 +1,3 @@
-Suppression FF + doc
-
 # Suppression d'une Fiche Forfait
 <table>
     <tr>
@@ -33,7 +31,7 @@ Suppression FF + doc
     <tr>
         <td>Réponse en cas d'échec</td>
         <td>Retourne le code statut 404 si l'identifiant demandé n'existe pas <br>
-        Code Status : 400<br>
+        Code Status : 404<br>
         {<br>
             "message": "Id frais forfait inexistant"<br>
         }
@@ -51,12 +49,12 @@ Suppression FF + doc
     }<br>
     *****************<br>
     Requête émise :<br>
-    DELETE /fraisforfait/NUI<br>
+    DELETE /fraisforfait/ABC<br>
     Réponse reçus :<br>
-    Code status : 200<br>
+    Code status : 404<br>
     Contenue : <br>
     {<br>
-        "message": "Frais forfait supprimé"<br>
+        "message": "Id frais forfait inexistant"<br>
     }<br>
     </td>
 </table>
