@@ -48,7 +48,10 @@ final class FraisForfaitController extends AbstractController
         $contenu = $request->getContent();
         $unFraisForfait = $unSerialiseur->deserialize($contenu, FraisForfait::class, 'json');
         $em->persist($unFraisForfait);
-        if ($this->dejaPresent($contenu, $unFraisForfaitRepository, $unSerialiseur)){
+        $id = substr($contenu, 10, strpos($contenu, ',') - 11);
+        $dejaPresent = $unFraisForfaitRepository->find($id);
+        //if ($this->dejaPresent($contenu, $unFraisForfaitRepository, $unSerialiseur)){
+        if ($dejaPresent === null) {
             $em->flush();
                 $location = $unUrlGenerateur->generate('fraisforfaits_post', 
                                         ['id' => $unFraisForfait->getId()],
@@ -74,7 +77,7 @@ final class FraisForfaitController extends AbstractController
      * @param SerializerInterface $unSerialiseur
      * @return bool Renvoie true si l'id est déjà present, sinon false
      */
-    public function dejaPresent(string $contenu, FraisForfaitRepository $unFraisForfaitRepository, SerializerInterface $unSerialiseur): bool{
+    /* private function dejaPresent(string $contenu, FraisForfaitRepository $unFraisForfaitRepository, SerializerInterface $unSerialiseur): bool{
         $idStart = 10; // a l'entrée de la guillemet
         $idEnd = strpos($contenu, ',') - 1; // position avant la guillemet
         $allFF = $this->getDetailFraisForfait(substr($contenu, $idStart, $idEnd - $idStart), $unFraisForfaitRepository, $unSerialiseur);
@@ -85,5 +88,5 @@ final class FraisForfaitController extends AbstractController
         else{
             return false;
         }
-    }
+    } */
 }
