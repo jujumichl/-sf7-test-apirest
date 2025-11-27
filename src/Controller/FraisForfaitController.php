@@ -43,12 +43,13 @@ final class FraisForfaitController extends AbstractController
     }
 
     #[Route('/fraisforfaits', name: 'fraisforfaits_post', methods: ['POST'])]
-    public function createFraisForfait(Request $request,FraisForfaitRepository $unFraisForfaitRepository, SerializerInterface $unSerialiseur, EntityManagerInterface $em, URLGeneratorInterface $unUrlGenerateur)
+    public function createFraisForfait(Request $request,FraisForfaitRepository $unFraisForfaitRepository, SerializerInterface $unSerialiseur,
+    EntityManagerInterface $em, URLGeneratorInterface $unUrlGenerateur)
     {
         $contenu = $request->getContent();
         $unFraisForfait = $unSerialiseur->deserialize($contenu, FraisForfait::class, 'json');
         $em->persist($unFraisForfait);
-        $id = substr($contenu, 10, strpos($contenu, ',') - 11);
+        $id = $unFraisForfait->getId();
         $dejaPresent = $unFraisForfaitRepository->find($id);
         //if ($this->dejaPresent($contenu, $unFraisForfaitRepository, $unSerialiseur)){
         if ($dejaPresent === null) {
@@ -89,4 +90,35 @@ final class FraisForfaitController extends AbstractController
             return false;
         }
     } */
+
+    #[Route('/fraisforfaits/{id}', name: 'fraisforfaits_put', methods: ['PUT'])]
+    public function modificationFF(string $id, Request $request, FraisForfaitRepository $unFraisForfaitRepository, SerializerInterface $unSerialiseur, 
+    EntityManagerInterface $em, URLGeneratorInterface $unUrlGenerateur): JsonResponse{
+        $contenu = $request->getContent();
+        $objetExistant = $unFraisForfaitRepository->find($id);
+        
+        //if ($this->dejaPresent($contenu, $unFraisForfaitRepository, $unSerialiseur)){
+        if ($objetExistant !== null) {
+            $unFraisForfait = $unSerialiseur->deserialize($contenu, FraisForfait::class, 'json');
+            $libelle = $unFraisForfait->getLibelle();
+            $montant = $unFraisForfait->getMontant();
+            $objetExistant->setMontant($montant);
+            $objetExistant->setLibelle($libelle);
+            $em->flush();
+            $location = $unUrlGenerateur->generate('fraisforfaits_put', 
+                                    ['id' => $id],
+                                    UrlGeneratorInterface::ABSOLUTE_URL);
+
+            $result = ["message" => "Frais forfait modifié",
+                    "data" => [
+                        "_selfLink" => $location
+                        ]
+                    ];
+            return new JsonResponse($result, JSONResponse::HTTP_OK, [], false);
+        }
+        else {
+            $result = ["message" => "Id frais forfait inexistant"];
+            return new JsonResponse($result, JSONResponse::HTTP_NOT_MODIFIED, [], false);
+        }
+    }
 }
