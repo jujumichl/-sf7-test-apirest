@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\FraisForfait;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 
 final class FraisForfaitController extends AbstractController
 {
@@ -52,7 +53,7 @@ final class FraisForfaitController extends AbstractController
         $id = $unFraisForfait->getId();
         $dejaPresent = $unFraisForfaitRepository->find($id);
         //if ($this->dejaPresent($contenu, $unFraisForfaitRepository, $unSerialiseur)){
-        if ($dejaPresent === null) {
+        if ($dejaPresent !== null) {
             $em->flush();
                 $location = $unUrlGenerateur->generate('fraisforfaits_post', 
                                         ['id' => $unFraisForfait->getId()],
@@ -99,11 +100,10 @@ final class FraisForfaitController extends AbstractController
         
         //if ($this->dejaPresent($contenu, $unFraisForfaitRepository, $unSerialiseur)){
         if ($objetExistant !== null) {
-            $unFraisForfait = $unSerialiseur->deserialize($contenu, FraisForfait::class, 'json');
-            $libelle = $unFraisForfait->getLibelle();
-            $montant = $unFraisForfait->getMontant();
-            $objetExistant->setMontant($montant);
-            $objetExistant->setLibelle($libelle);
+            $unFraisForfait = $unSerialiseur->deserialize($contenu, FraisForfait::class, 'json',
+       [
+                    AbstractNormalizer::OBJECT_TO_POPULATE => $objetExistant,
+                ]);
             $em->flush();
             $location = $unUrlGenerateur->generate('fraisforfaits_put', 
                                     ['id' => $id],
@@ -118,7 +118,7 @@ final class FraisForfaitController extends AbstractController
         }
         else {
             $result = ["message" => "Id frais forfait inexistant"];
-            return new JsonResponse($result, JSONResponse::HTTP_NOT_MODIFIED, [], false);
+            return new JsonResponse($result, JSONResponse::HTTP_NOT_FOUND, [], false);
         }
     }
 }
