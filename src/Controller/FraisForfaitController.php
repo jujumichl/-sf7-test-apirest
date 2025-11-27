@@ -127,7 +127,7 @@ final class FraisForfaitController extends AbstractController
      * Supprime un objet associé a un id
      */
     #[Route('/fraisforfaits/{id}', name: 'fraisforfaits_delete', methods: ['DELETE'])]
-    public function deleteFF(string $id, Request $request, FraisForfaitRepository $unFraisForfaitRepository, SerializerInterface $unSerialiseur, 
+    public function deleteFF(string $id, FraisForfaitRepository $unFraisForfaitRepository, 
     EntityManagerInterface $em){
         $objetExistant = $unFraisForfaitRepository->find($id);
         
@@ -144,4 +144,23 @@ final class FraisForfaitController extends AbstractController
             return new JsonResponse($result, JSONResponse::HTTP_NOT_FOUND, [], false);
         }
     }
+
+    /**
+     * Filtre les FF via les libellé
+     */
+    #[Route('/fraisforfaits', name: 'fraisforfaits_filtrer', methods: ['GET'])]
+    public function filtrerFF(Request $request, FraisForfaitRepository $unFraisForfaitRepository, SerializerInterface $unSerialiseur, 
+    EntityManagerInterface $em){
+        $contenue = $request->getContent();
+        $unFiltre = $unSerialiseur->deserialize($contenue, FraisForfait::class, 'json');
+        $libelle = $unFiltre->getLibelle();
+        $lesFraisForfaits = $unFraisForfaitRepository->find($libelle);
+        $result = [
+            'message' => 'OK',
+            'data' => $lesFraisForfaits
+        ];
+        $serializedResult = $unSerialiseur->serialize($result, 'json');
+        return new JSONResponse($serializedResult, JsonResponse::HTTP_OK, [], true);
+    }
+
 }

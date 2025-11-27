@@ -61,5 +61,4 @@
 
 
 -------
-Pour supprimer une fiche forfait il faut appeler 
 filtrer les FF sur libelle + doc
