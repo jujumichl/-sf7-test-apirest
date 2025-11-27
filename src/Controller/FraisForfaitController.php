@@ -121,4 +121,27 @@ final class FraisForfaitController extends AbstractController
             return new JsonResponse($result, JSONResponse::HTTP_NOT_FOUND, [], false);
         }
     }
+
+
+    /**
+     * Supprime un objet associé a un id
+     */
+    #[Route('/fraisforfaits/{id}', name: 'fraisforfaits_delete', methods: ['DELETE'])]
+    public function deleteFF(string $id, Request $request, FraisForfaitRepository $unFraisForfaitRepository, SerializerInterface $unSerialiseur, 
+    EntityManagerInterface $em){
+        $objetExistant = $unFraisForfaitRepository->find($id);
+        
+        //if ($this->dejaPresent($contenu, $unFraisForfaitRepository, $unSerialiseur)){
+        if ($objetExistant !== null) {
+            $em->remove($objetExistant);
+            $em->flush();
+
+            $result = ["message" => "Frais forfait supprimé"];
+            return new JsonResponse($result, JSONResponse::HTTP_OK, [], false);
+        }
+        else {
+            $result = ["message" => "Id frais forfait inexistant"];
+            return new JsonResponse($result, JSONResponse::HTTP_NOT_FOUND, [], false);
+        }
+    }
 }
