@@ -35,7 +35,7 @@ final class FraisForfaitController extends AbstractController
             return new JSONResponse(['message' => 'Id frais forfait inexistant'], JsonResponse::HTTP_NOT_FOUND);
         }
         $result = [
-            'message' => 'Frais forfait demandé',
+            'message' => 'OK',
             'data' => $unFraisForfait
         ];
         $serializedResult = $unSerialiseur->serialize($result, 'json');
@@ -49,11 +49,11 @@ final class FraisForfaitController extends AbstractController
     {
         $contenu = $request->getContent();
         $unFraisForfait = $unSerialiseur->deserialize($contenu, FraisForfait::class, 'json');
-        $em->persist($unFraisForfait);
         $id = $unFraisForfait->getId();
         $dejaPresent = $unFraisForfaitRepository->find($id);
         //if ($this->dejaPresent($contenu, $unFraisForfaitRepository, $unSerialiseur)){
-        if ($dejaPresent !== null) {
+        if ($dejaPresent === null) {
+            $em->persist($unFraisForfait);
             $em->flush();
                 $location = $unUrlGenerateur->generate('fraisforfaits_post', 
                                         ['id' => $unFraisForfait->getId()],
@@ -100,7 +100,7 @@ final class FraisForfaitController extends AbstractController
         
         //if ($this->dejaPresent($contenu, $unFraisForfaitRepository, $unSerialiseur)){
         if ($objetExistant !== null) {
-            $unFraisForfait = $unSerialiseur->deserialize($contenu, FraisForfait::class, 'json',
+            $unSerialiseur->deserialize($contenu, FraisForfait::class, 'json',
        [
                     AbstractNormalizer::OBJECT_TO_POPULATE => $objetExistant,
                 ]);
