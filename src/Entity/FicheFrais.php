@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\FicheFraisRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: FicheFraisRepository::class)]
 class FicheFrais
@@ -12,27 +13,34 @@ class FicheFrais
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['fichesfrais.general'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 6)]
+    #[Groups(['fichesfrais.general'])]
     private ?string $mois = null;
 
     #[ORM\Column(type: Types::SMALLINT)]
+    #[Groups(['fichesfrais.general'])]
     private ?int $nbJustificatifs = null;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    #[Groups(['fichesfrais.general'])]
     private ?string $montantValide = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
+    #[Groups(['fichesfrais.general'])]
     private ?\DateTime $dateModif = null;
 
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Visiteur $visiteur = null;
-
-    #[ORM\ManyToOne]
-    #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['fichesfrais.general'])]
     private ?Etat $etat = null;
+
+    #[ORM\ManyToOne(inversedBy: 'ffs')]
+    #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['fichesfrais.general'])]
+    private ?Visiteur $visiteur = null;
 
     public function getId(): ?int
     {
@@ -87,17 +95,6 @@ class FicheFrais
         return $this;
     }
 
-    public function getVisiteur(): ?Visiteur
-    {
-        return $this->visiteur;
-    }
-
-    public function setVisiteur(?Visiteur $visiteur): static
-    {
-        $this->visiteur = $visiteur;
-
-        return $this;
-    }
 
     public function getEtat(): ?Etat
     {
@@ -107,6 +104,18 @@ class FicheFrais
     public function setEtat(?Etat $etat): static
     {
         $this->etat = $etat;
+
+        return $this;
+    }
+
+    public function getVisiteur(): ?Visiteur
+    {
+        return $this->visiteur;
+    }
+
+    public function setVisiteur(?Visiteur $visiteur): static
+    {
+        $this->visiteur = $visiteur;
 
         return $this;
     }

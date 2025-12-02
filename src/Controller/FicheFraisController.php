@@ -7,6 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 
 
 final class FicheFraisController extends AbstractController
@@ -19,7 +20,7 @@ final class FicheFraisController extends AbstractController
             'message' => 'OK',
             'data' => $lesFichesFrais
         ];
-        $serializedResult = $unSerialiseur->serialize($result, 'json');
+        $serializedResult = $unSerialiseur->serialize($result, 'json', [AbstractNormalizer::GROUPS => 'fichesfrais.general']);
         return new JSONResponse($serializedResult, JsonResponse::HTTP_OK, [], true);
     }
 }
