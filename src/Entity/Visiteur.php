@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Serializer\Attribute\SerializedName;
 
 
 #[ORM\Entity(repositoryClass: VisiteurRepository::class)]
@@ -16,7 +17,6 @@ class Visiteur
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'NONE')]
     #[ORM\Column(length: 4)]
-    #[Groups(['fichesfrais.general'])]
     private ?string $id = null;
 
     #[ORM\Column(length: 30, nullable: true)]
@@ -28,27 +28,21 @@ class Visiteur
     private ?string $prenom = null;
 
     #[ORM\Column(length: 30)]
-    #[Groups(['fichesfrais.general'])]
     private ?string $login = null;
 
     #[ORM\Column(length: 30)]
-    #[Groups(['fichesfrais.general'])]
     private ?string $mdp = null;
 
     #[ORM\Column(length: 50, nullable: true)]
-    #[Groups(['fichesfrais.general'])]
     private ?string $adresse = null;
 
     #[ORM\Column(length: 5, nullable: true)]
-    #[Groups(['fichesfrais.general'])]
     private ?string $cp = null;
 
     #[ORM\Column(length: 30, nullable: true)]
-    #[Groups(['fichesfrais.general'])]
     private ?string $ville = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
-    #[Groups(['fichesfrais.general'])]
     private ?\DateTime $dateEmbauche = null;
 
     /**
