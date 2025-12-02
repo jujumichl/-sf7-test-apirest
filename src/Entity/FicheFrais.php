@@ -30,6 +30,10 @@ class FicheFrais
     #[ORM\JoinColumn(nullable: false)]
     private ?Visiteur $visiteur = null;
 
+    #[ORM\ManyToOne]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Etat $etat = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -91,6 +95,18 @@ class FicheFrais
     public function setVisiteur(?Visiteur $visiteur): static
     {
         $this->visiteur = $visiteur;
+
+        return $this;
+    }
+
+    public function getEtat(): ?Etat
+    {
+        return $this->etat;
+    }
+
+    public function setEtat(?Etat $etat): static
+    {
+        $this->etat = $etat;
 
         return $this;
     }

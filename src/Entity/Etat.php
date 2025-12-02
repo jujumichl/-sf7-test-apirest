@@ -16,7 +16,7 @@ class Etat
     #[ORM\Column(length: 30)]
     private ?string $libelle = null;
 
-    public function getId(): ?int
+    public function getId(): ?string
     {
         return $this->id;
     }
