@@ -38,7 +38,7 @@ class Visiteur
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTime $dateEmbauche = null;
 
-    public function getId(): ?int
+    public function getId(): ?string
     {
         return $this->id;
     }
