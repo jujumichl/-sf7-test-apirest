@@ -19,9 +19,10 @@ class FraisForfaitTest extends KernelTestCase
         $kernel = self::bootKernel();
         $unValidateur = static::getContainer()->get('validator');
         $unFF = new FraisForfait();
-        $unFF->setId("ABCD")->setLibelle("libelle")->setMontant("500");
+        $unFF->setId("abd")->setLibelle("libelle")->setMontant("500");
         $collErreurs = $unValidateur->validate($unFF);
         self::assertTrue($collErreurs->count() > 0);
+        self::assertEquals("L'indentifiant doit être composer de 3 lettres en majuscules.", $collErreurs[0]->getMessage());
     }
 
 
@@ -62,12 +63,21 @@ class FraisForfaitTest extends KernelTestCase
             "FF avec id trop long" => ["ABCD", "libelle", "250", false],
             "FF avec id comportant 1 minuscule" => ["XRt", "libelle", "250", false],
             "FF avec id comportant 3 caractères autres que maj" => ["$9m", "libelle", "250", false],
+
             "Libelle vide" => ["XXX", "", "250", false],
             "Libelle Correcte" => ["AKZ", "azerty", "250", true],
             "Libelle avec 5 char" => ["ARK", "azert", "250", true],
             "Libelle avec 20 char" => ["ABC", "azertyuiopmlkjhgfdsq", "250", true],
             "Libelle avec 21 char" => ["XRT", "azertyuiopmlkjhgfdsqw", "250", false],
             "Libelle avec 4 char" => ["ATH", "azer", "250", false],
+
+            "Montant valide" => ["XXX", "libelle", "250", true],
+            "Montant négatif" => ["AKZ", "libelle", "-250", false],
+            "Montant a 0" => ["ARK", "libelle", "0", false],
+            "Montant a 1" => ["ABC", "libelle", "1", true],
+            "Montant a 9 999" => ["XRT", "libelle", "9999", true],
+            "Montant a 10 000" => ["ATH", "libelle", "10000", false],
+            "Montant a 250.5" => ["ATH", "libelle", "250.5", true],
         ];
     }
 }

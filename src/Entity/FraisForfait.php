@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\FraisForfaitRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use phpDocumentor\Reflection\PseudoTypes\Numeric_;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Constraints\Length;
 
@@ -25,6 +26,9 @@ class FraisForfait
     #[ORM\Column(length: 20, nullable: true)]
     private ?string $libelle = null;
 
+    #[Assert\type(type: 'numeric')]
+    #[Assert\Positive]
+    #[Assert\LessThan(10000)]
     #[ORM\Column(type: Types::DECIMAL, precision: 5, scale: 2, nullable: true)]
     private ?string $motant = null;
 
