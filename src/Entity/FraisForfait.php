@@ -21,7 +21,7 @@ class FraisForfait
     #[ORM\Column(length: 3)]
     private ?string $id = null;
 
-
+    #[Assert\Length(min:5, max:20)]
     #[ORM\Column(length: 20, nullable: true)]
     private ?string $libelle = null;
 

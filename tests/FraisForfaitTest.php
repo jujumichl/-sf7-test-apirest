@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Tests;
 
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
@@ -9,6 +10,10 @@ use PHPUnit\Framework\Attributes\Test;
 class FraisForfaitTest extends KernelTestCase
 {
     #[Test]
+    /**
+     * Sert a valider un identifiant
+     * @return void
+     */
     public function validationFFAvecIdTropLong(): void
     {
         $kernel = self::bootKernel();
@@ -18,6 +23,8 @@ class FraisForfaitTest extends KernelTestCase
         $collErreurs = $unValidateur->validate($unFF);
         self::assertTrue($collErreurs->count() > 0);
     }
+
+
     /**
      * Invoque les règles de validation sur un objet FraisForfait construit à partir de $unId, $unLibelle,
      * $unMontant et vérifie que le résultat de la validation est $isOk
@@ -38,6 +45,7 @@ class FraisForfaitTest extends KernelTestCase
         $collErreurs = $unValidateur->validate($unFF);
         self::assertEquals($estValide, $collErreurs->count() === 0);
     }
+
     /**
      * Fournit les cas de test pour la méthode validationFF :
      * ciblant indépendamment chaque propriété, id, libelle, montant, puis plusieurs à la fois
@@ -45,13 +53,21 @@ class FraisForfaitTest extends KernelTestCase
      * d'arguments id, libelle, montant, estValide
      * @return array tableau des cas de test
      */
-    public static function validationFFProvider() : array {
-        return [ "FF avec valeurs correctes et mêmes majuscules" => ["XXX", "libelle", "250", true],
-                 "FF avec valeurs correctes et majuscules différentes" => ["AKZ", "libelle", "250", true],
-                 "FF avec id non renseigné" => ["", "libelle", "250", false],
-                 "FF avec id trop long" => ["ABCD", "libelle", "250", false],
-                 "FF avec id comportant 1 minuscule" => ["XRt", "libelle", "250", false],
-                 "FF avec id comportant 3 caractères autres que maj" => ["$9m", "libelle", "250", false],
-            ];
+    public static function validationFFProvider(): array
+    {
+        return [
+            "FF avec valeurs correctes et mêmes majuscules" => ["XXX", "libelle", "250", true],
+            "FF avec valeurs correctes et majuscules différentes" => ["AKZ", "libelle", "250", true],
+            "FF avec id non renseigné" => ["", "libelle", "250", false],
+            "FF avec id trop long" => ["ABCD", "libelle", "250", false],
+            "FF avec id comportant 1 minuscule" => ["XRt", "libelle", "250", false],
+            "FF avec id comportant 3 caractères autres que maj" => ["$9m", "libelle", "250", false],
+            "Libelle vide" => ["XXX", "", "250", false],
+            "Libelle Correcte" => ["AKZ", "azerty", "250", true],
+            "Libelle avec 5 char" => ["ARK", "azert", "250", true],
+            "Libelle avec 20 char" => ["ABC", "azertyuiopmlkjhgfdsq", "250", true],
+            "Libelle avec 21 char" => ["XRT", "azertyuiopmlkjhgfdsqw", "250", false],
+            "Libelle avec 4 char" => ["ATH", "azer", "250", false],
+        ];
     }
 }
