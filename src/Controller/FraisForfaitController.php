@@ -12,6 +12,8 @@ use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\FraisForfait;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
+use Symfony\Component\Validator;
+use Symfony\Component\Validator\ValidatorInterface;
 
 final class FraisForfaitController extends AbstractController
 {
@@ -45,11 +47,12 @@ final class FraisForfaitController extends AbstractController
 
     #[Route('/fraisforfaits', name: 'fraisforfaits_post', methods: ['POST'])]
     public function createFraisForfait(Request $request,FraisForfaitRepository $unFraisForfaitRepository, SerializerInterface $unSerialiseur,
-    EntityManagerInterface $em, URLGeneratorInterface $unUrlGenerateur)
+    EntityManagerInterface $em, URLGeneratorInterface $unUrlGenerateur, Validator $unValidator)
     {
         $contenu = $request->getContent();
         $unFraisForfait = $unSerialiseur->deserialize($contenu, FraisForfait::class, 'json');
         $id = $unFraisForfait->getId();
+        $errors = $unValidator->validate($unFraisForfait);
         $dejaPresent = $unFraisForfaitRepository->find($id);
         //if ($this->dejaPresent($contenu, $unFraisForfaitRepository, $unSerialiseur)){
         if ($dejaPresent === null) {
