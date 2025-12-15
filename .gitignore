@@ -8,5 +8,11 @@
 /var/
 /vendor/
 ###< symfony/framework-bundle ###
+.vscode/
+###> phpunit/phpunit ###
+/phpunit.xml
+/.phpunit.cache/
+###< phpunit/phpunit ###
 /.phpunit.cache/
 /.vscode/
+

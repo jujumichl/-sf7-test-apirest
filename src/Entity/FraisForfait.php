@@ -6,18 +6,29 @@ use App\Repository\FraisForfaitRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
+use Symfony\Component\Validator\Constraints as Assert;
+
+
+use function PHPUnit\Framework\exactly;
+
 #[ORM\Entity(repositoryClass: FraisForfaitRepository::class)]
 class FraisForfait
 {
+    #[Assert\Length(exactly: 3)]
+    #[Assert\NotBlank]
+    #[Assert\Regex("/^[A-Z]{3}$/", "L'indentifiant doit être composer de 3 lettres en majuscules.")]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'NONE')]
     #[ORM\Column(length: 3)]
     private ?string $id = null;
 
-
+    #[Assert\Length(min:5, max:20)]
     #[ORM\Column(length: 20, nullable: true)]
     private ?string $libelle = null;
 
+    #[Assert\Type(type: 'numeric')]
+    #[Assert\Positive]
+    #[Assert\LessThan(10000)]
     #[ORM\Column(type: Types::DECIMAL, precision: 5, scale: 2, nullable: true)]
     private ?string $montant = null;
 
