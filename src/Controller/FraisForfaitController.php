@@ -12,10 +12,12 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bundle\MakerBundle\Validator;
 
 final class FraisForfaitController extends AbstractController
 {
@@ -32,8 +34,19 @@ final class FraisForfaitController extends AbstractController
     }
 
     #[Route('/fraisforfaits/{id}', name: 'fraisforfaits_get_id', methods: ['GET'])]
-    public function getDetailFraisForfait(string $id, FraisForfaitRepository $unFraisForfaitRepository, SerializerInterface $unSerialiseur): JsonResponse
+    public function getDetailFraisForfait(string $id, FraisForfaitRepository $unFraisForfaitRepository,
+    SerializerInterface $unSerialiseur, ValidatorInterface $unValidator): JsonResponse
     {
+        $constraints = [
+            new Assert\Length(exactly: 3),
+            new Assert\NotBlank,
+            new Assert\Regex("/^[A-Z]{3}$/", "L'indentifiant doit être composer de 3 lettres en majuscules.")
+        ];
+
+        $errors = $unValidator->validate($id, $constraints);
+        if ($errors->count() > 0 ){
+            return new JSONResponse(['message' => 'Id frais forfait invalide'], JsonResponse::HTTP_BAD_REQUEST);
+        }
         $unFraisForfait = $unFraisForfaitRepository->find($id);
         if ($unFraisForfait === null) {
             return new JSONResponse(['message' => 'Id frais forfait inexistant'], JsonResponse::HTTP_NOT_FOUND);
@@ -59,7 +72,7 @@ final class FraisForfaitController extends AbstractController
         if ($errors->count() > 0){
             $messages = [];
             foreach ($errors as $error){
-                $messages[] = $error->getMessage();
+                $messages[] = [$error->getPropertyPath() => $error->getMessage()];
             }
             $result = ["message" => "Données erronées", "errors"=> $messages];
             
