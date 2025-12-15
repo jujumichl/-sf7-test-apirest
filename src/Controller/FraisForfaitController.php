@@ -2,18 +2,20 @@
 
 namespace App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Repository\FraisForfaitRepository;
+use App\Entity\FraisForfait;
+
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Attribute\Route;
-use App\Repository\FraisForfaitRepository;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\HttpFoundation\Request;
-use Doctrine\ORM\EntityManagerInterface;
-use App\Entity\FraisForfait;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
-use Symfony\Component\Validator;
-use Symfony\Component\Validator\ValidatorInterface;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
+
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+
+use Doctrine\ORM\EntityManagerInterface;
 
 final class FraisForfaitController extends AbstractController
 {
@@ -47,12 +49,22 @@ final class FraisForfaitController extends AbstractController
 
     #[Route('/fraisforfaits', name: 'fraisforfaits_post', methods: ['POST'])]
     public function createFraisForfait(Request $request,FraisForfaitRepository $unFraisForfaitRepository, SerializerInterface $unSerialiseur,
-    EntityManagerInterface $em, URLGeneratorInterface $unUrlGenerateur, Validator $unValidator)
+    EntityManagerInterface $em, URLGeneratorInterface $unUrlGenerateur, ValidatorInterface $unValidator)
     {
         $contenu = $request->getContent();
         $unFraisForfait = $unSerialiseur->deserialize($contenu, FraisForfait::class, 'json');
         $id = $unFraisForfait->getId();
         $errors = $unValidator->validate($unFraisForfait);
+
+        if ($errors->count() > 0){
+            $messages = [];
+            foreach ($errors as $error){
+                $messages[] = $error->getMessage();
+            }
+            $result = ["message" => "Données erronées", "errors"=> $messages];
+            
+            return new JsonResponse($result, JsonResponse::HTTP_BAD_REQUEST, [], false);
+        }
         $dejaPresent = $unFraisForfaitRepository->find($id);
         //if ($this->dejaPresent($contenu, $unFraisForfaitRepository, $unSerialiseur)){
         if ($dejaPresent === null) {
