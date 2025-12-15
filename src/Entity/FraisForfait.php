@@ -19,7 +19,7 @@ class FraisForfait
     private ?string $libelle = null;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 5, scale: 2, nullable: true)]
-    private ?string $motant = null;
+    private ?string $montant = null;
 
     public function getId(): ?string
     {
@@ -40,12 +40,12 @@ class FraisForfait
 
     public function getMontant(): ?string
     {
-        return $this->motant;
+        return $this->montant;
     }
 
-    public function setMontant(?string $motant): static
+    public function setMontant(?string $montant): static
     {
-        $this->motant = $motant;
+        $this->montant = $montant;
 
         return $this;
     }
