@@ -51,6 +51,11 @@ class Visiteur
     #[ORM\OneToMany(targetEntity: FicheFrais::class, mappedBy: 'visiteur', orphanRemoval: true)]
     private Collection $ffs;
 
+    #[ORM\ManyToOne]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?SecteurGeographique $SecteurGeographique = null;
+
+
     public function __construct()
     {
         $this->ffs = new ArrayCollection();
@@ -183,6 +188,18 @@ class Visiteur
                 $ff->setVisiteur(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getSecteurGeographique(): ?SecteurGeographique
+    {
+        return $this->SecteurGeographique;
+    }
+
+    public function setSecteurGeographique(?SecteurGeographique $SecteurGeographique): static
+    {
+        $this->SecteurGeographique = $SecteurGeographique;
 
         return $this;
     }
