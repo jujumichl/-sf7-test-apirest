@@ -3,13 +3,15 @@
 namespace App\Entity;
 
 use App\Repository\VisiteurRepository;
+use BcMath\Number;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use phpDocumentor\Reflection\PseudoTypes\Numeric_;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Serializer\Attribute\SerializedName;
-
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: VisiteurRepository::class)]
 class Visiteur
@@ -36,9 +38,11 @@ class Visiteur
     #[ORM\Column(length: 50, nullable: true)]
     private ?string $adresse = null;
 
+    #[Assert\NotBlank]
     #[ORM\Column(length: 5, nullable: true)]
     private ?string $cp = null;
 
+    #[Assert\NotBlank]
     #[ORM\Column(length: 30, nullable: true)]
     private ?string $ville = null;
 
@@ -64,6 +68,12 @@ class Visiteur
     public function getId(): ?string
     {
         return $this->id;
+    }
+    public function setId(?string $id): static
+    {
+        $this->id = $id;
+
+        return $this;
     }
 
     public function getNom(): ?string
