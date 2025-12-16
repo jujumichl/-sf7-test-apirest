@@ -10,6 +10,7 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
@@ -19,9 +20,20 @@ final class VisiteurController extends AbstractController
 {
     #[Route('/visiteurs/{id}', name: 'visiteur_put', methods: ['PUT'])]
     public function modificationV(string $id, Request $request, VisiteurRepository $unVisiteurRepository, SerializerInterface $unSerialiseur, 
-    EntityManagerInterface $em): JsonResponse{
+    EntityManagerInterface $em, ValidatorInterface $unValidator): JsonResponse{
         $contenu = $request->getContent();
+        $unVisiteur = $unSerialiseur->deserialize($contenu, Visiteur::class, 'json');
         $objetExistant = $unVisiteurRepository->find($id);
+        $errors = $unValidator->validate($unVisiteur);
+        if ($errors->count() > 0){
+            $messages = [];
+            foreach ($errors as $error){
+                $messages[] = [$error->getPropertyPath() => $error->getMessage()];
+            }
+            $result = ["message" => "Données erronées", "errors"=> $messages];
+            
+            return new JsonResponse($result, JsonResponse::HTTP_BAD_REQUEST, [], false);
+        }
         //if ($this->dejaPresent($contenu, $unVisiteurRepository, $unSerialiseur)){
         if ($objetExistant !== null) {
             $unSerialiseur->deserialize($contenu, Visiteur::class, 'json',
@@ -30,7 +42,7 @@ final class VisiteurController extends AbstractController
                 ]);
             $em->flush();
 
-            $result = ["message" => "Visiteur d'id {$id} a été modifié"];
+            $result = ["message" => "Visiteur d'id {$id} été modifié"];
             return new JsonResponse($result, JsonResponse::HTTP_OK, [], false);
         }
         else {
