@@ -39,6 +39,7 @@ class Visiteur
     private ?string $adresse = null;
 
     #[Assert\NotBlank]
+    #[Assert\Regex (pattern:'/$[0-9](5)^/')]
     #[ORM\Column(length: 5, nullable: true)]
     private ?string $cp = null;
 
@@ -57,7 +58,7 @@ class Visiteur
 
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
-    private ?SecteurGeographique $SecteurGeographique = null;
+    private ?SecteurGeographique $secteurGeographique = null;
 
 
     public function __construct()
@@ -204,12 +205,12 @@ class Visiteur
 
     public function getSecteurGeographique(): ?SecteurGeographique
     {
-        return $this->SecteurGeographique;
+        return $this->secteurGeographique;
     }
 
-    public function setSecteurGeographique(?SecteurGeographique $SecteurGeographique): static
+    public function setSecteurGeographique(?SecteurGeographique $secteurGeographique): static
     {
-        $this->SecteurGeographique = $SecteurGeographique;
+        $this->secteurGeographique = $secteurGeographique;
 
         return $this;
     }
