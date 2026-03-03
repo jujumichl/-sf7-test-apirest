@@ -1,0 +1,163 @@
+{
+  "version": 6,
+  "entities": [
+    {
+      "entity": {
+        "type": "Project",
+        "id": "9fac7dfa-ee45-42ca-b286-da953a7b5ae5",
+        "name": "SF7-Test-APIRest-20252026"
+      },
+      "children": [
+        {
+          "entity": {
+            "type": "Service",
+            "id": "a94e674c-4961-4cf4-a294-24ac7198ac35",
+            "name": "Modifier-Visiteurs"
+          },
+          "children": [
+            {
+              "entity": {
+                "type": "Request",
+                "method": {
+                  "requestBody": true,
+                  "link": "http://tools.ietf.org/html/rfc7231#section-4.3.4",
+                  "name": "PUT"
+                },
+                "body": {
+                  "formBody": {
+                    "overrideContentType": true,
+                    "encoding": "application/x-www-form-urlencoded",
+                    "items": []
+                  },
+                  "bodyType": "Text",
+                  "textBody": "{ \n  \"adresse\": \"1,machin chose\",\n  \"cp\" : \"35520\",\n  \"ville\": \"Melesse\"\n}"
+                },
+                "uri": {
+                  "query": {
+                    "delimiter": "&",
+                    "items": []
+                  },
+                  "scheme": {
+                    "name": "${'protocol'}"
+                  },
+                  "host": "${'host'}",
+                  "path": "/${'path'}/visiteurs/a55"
+                },
+                "id": "f0b3ce03-f22b-44d6-8a25-5ddc7ad6aeaf",
+                "name": "Modification-Avec-Id-existant",
+                "headers": [
+                  {
+                    "enabled": true,
+                    "name": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "enabled": true,
+                    "name": "Accept",
+                    "value": "*/*"
+                  }
+                ],
+                "assertions": [
+                  {
+                    "comparison": "Equals",
+                    "subject": "ResponseStatus",
+                    "path": "code",
+                    "value": "200"
+                  },
+                  {
+                    "comparison": "Exists",
+                    "subject": "ResponseBody",
+                    "path": "content",
+                    "value": "200"
+                  },
+                  {
+                    "comparison": "Contains",
+                    "subject": "ResponseHeader",
+                    "path": "content-type",
+                    "value": "application/json"
+                  },
+                  {
+                    "comparison": "Equals",
+                    "subject": "ResponseJsonBody",
+                    "path": "$.message",
+                    "value": "Visiteur d'id a55 a été modifié"
+                  }
+                ]
+              }
+            },
+            {
+              "entity": {
+                "type": "Request",
+                "method": {
+                  "requestBody": true,
+                  "link": "http://tools.ietf.org/html/rfc7231#section-4.3.4",
+                  "name": "PUT"
+                },
+                "body": {
+                  "formBody": {
+                    "overrideContentType": true,
+                    "encoding": "application/x-www-form-urlencoded",
+                    "items": []
+                  },
+                  "bodyType": "Text",
+                  "textBody": "{ \n  \"adresse\": \"1,machin chose\",\n  \"cp\" : \"35520\",\n  \"ville\": \"Melesse\"\n}"
+                },
+                "uri": {
+                  "query": {
+                    "delimiter": "&",
+                    "items": []
+                  },
+                  "scheme": {
+                    "name": "${'protocol'}"
+                  },
+                  "host": "${'host'}",
+                  "path": "/${'path'}/visiteurs/a52"
+                },
+                "id": "f807ed5c-a2d0-432e-bc1b-cfa6d5a49dff",
+                "name": "Modification-Avec-Id-inexistant",
+                "headers": [
+                  {
+                    "enabled": true,
+                    "name": "Content-Type",
+                    "value": "application/json"
+                  },
+                  {
+                    "enabled": true,
+                    "name": "Accept",
+                    "value": "*/*"
+                  }
+                ],
+                "assertions": [
+                  {
+                    "comparison": "Equals",
+                    "subject": "ResponseStatus",
+                    "path": "code",
+                    "value": "404"
+                  },
+                  {
+                    "comparison": "Exists",
+                    "subject": "ResponseBody",
+                    "path": "content",
+                    "value": "200"
+                  },
+                  {
+                    "comparison": "Contains",
+                    "subject": "ResponseHeader",
+                    "path": "content-type",
+                    "value": "application/json"
+                  },
+                  {
+                    "comparison": "Equals",
+                    "subject": "ResponseJsonBody",
+                    "path": "$.message",
+                    "value": "Visiteur inexistant"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
