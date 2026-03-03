@@ -42,4 +42,53 @@ class VisiteurTest extends KernelTestCase
                  "Visiteur avec cp & ville non renseignée" => ["", "", false],
              ];
     }
+
+    /**
+     * Un seul cas de test ici car on vérifie que c'est bien le login 
+     * qui est renvoyé comme id, donc pas besoin de fournisseur de données
+     */
+    #[Test]
+    public function getUserIdentifier(): void
+    {
+        $unVisiteur = new Visiteur();
+        $unVisiteur->setLogin('dandre')
+                    ->setNom('David')
+                    ->setPrenom('André')
+                    ->setMdp('passe');
+        
+        self::assertEquals('dandre', $unVisiteur->getUserIdentifier(), "Le login doit être retourné");
+    }
+
+    /**
+     * Un seul cas de test ici car on vérifie que c'est bien le login 
+     * qui est renvoyé comme id, donc pas besoin de fournisseur de données
+     */
+    #[Test]
+    public function getPassword(): void
+    {
+        $unVisiteur = new Visiteur();
+        $unVisiteur->setLogin('dandre')
+                    ->setNom('David')
+                    ->setPrenom('André')
+                    ->setMdp('passe');
+        
+        self::assertEquals('passe', $unVisiteur->getPassword(), "Le mdp doit être retourné");
+    }
+
+    /**
+     * Un seul cas de test ici car on vérifie que c'est bien le login 
+     * qui est renvoyé comme id, donc pas besoin de fournisseur de données
+     */
+    #[Test]
+    public function getRoles(): void
+    {
+        $unVisiteur = new Visiteur();
+        $unVisiteur->setLogin('dandre')
+                    ->setNom('David')
+                    ->setPrenom('André')
+                    ->setMdp('passe');
+        
+        self::assertEquals(['ROLE_VISITEUR'], $unVisiteur->getRoles(), "Le rôle doit être retourné");
+    }
+
 }
