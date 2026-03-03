@@ -1,0 +1,1 @@
+./vendor/bin/phpunit ./tests/VisiteurTest.php --color --testdox

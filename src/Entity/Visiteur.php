@@ -8,13 +8,16 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use LDAP\ResultEntry;
 use phpDocumentor\Reflection\PseudoTypes\Numeric_;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Serializer\Attribute\SerializedName;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 
 #[ORM\Entity(repositoryClass: VisiteurRepository::class)]
-class Visiteur
+class Visiteur implements UserInterface, PasswordAuthenticatedUserInterface 
 {
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'NONE')]
@@ -39,8 +42,9 @@ class Visiteur
     private ?string $adresse = null;
 
     #[Assert\NotBlank]
-    #[Assert\Regex (pattern:'/$[0-9](5)^/')]
+    #[Assert\Regex (pattern:'/^\d{5}$/')]
     #[ORM\Column(length: 5, nullable: true)]
+    #[SerializedName("codePostal")]
     private ?string $cp = null;
 
     #[Assert\NotBlank]
@@ -101,7 +105,7 @@ class Visiteur
         return $this;
     }
 
-    public function getLogin(): ?string
+    public function getLogin(): string
     {
         return $this->login;
     }
@@ -213,5 +217,23 @@ class Visiteur
         $this->secteurGeographique = $secteurGeographique;
 
         return $this;
+    }
+
+    public function getPassword():string {
+        return $this->getmdp();
+    }
+
+    public function getUserIdentifier(): string {
+        return $this->getLogin();
+    }
+
+    public function eraseCredentials(): void
+    {
+        return;
+    }
+
+    public function getRoles():array
+    {
+        return ['ROLE_VISITEUR'];
     }
 }

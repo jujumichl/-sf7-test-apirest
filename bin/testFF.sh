@@ -1,0 +1,1 @@
+./vendor/bin/phpunit ./tests/FraisForfaitTest.php --color --testdox
