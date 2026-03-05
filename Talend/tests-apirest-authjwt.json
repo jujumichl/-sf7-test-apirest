@@ -1,0 +1,524 @@
+{
+  "version": 6,
+  "entities": [
+    {
+      "entity": {
+        "type": "Project",
+        "id": "9fac7dfa-ee45-42ca-b286-da953a7b5ae5",
+        "name": "SF7-Test-APIRest-20252026"
+      },
+      "children": [
+        {
+          "entity": {
+            "type": "Service",
+            "id": "c054dfbc-0953-47bf-9964-2e9811356b3c",
+            "name": "AuthJwt"
+          },
+          "children": [
+            {
+              "entity": {
+                "type": "Request",
+                "method": {
+                  "link": "http://tools.ietf.org/html/rfc7231#section-4.3.1",
+                  "name": "GET"
+                },
+                "body": {
+                  "formBody": {
+                    "overrideContentType": true,
+                    "encoding": "application/x-www-form-urlencoded",
+                    "items": []
+                  },
+                  "bodyType": "Text"
+                },
+                "uri": {
+                  "query": {
+                    "delimiter": "&",
+                    "items": []
+                  },
+                  "scheme": {
+                    "name": "${'protocol'}"
+                  },
+                  "host": "${'host'}",
+                  "path": "/${'path'}/fraisforfaits"
+                },
+                "id": "1c166cc2-c02a-4ce3-acf9-b77c25585d37",
+                "name": "GET-FF-Tous-AvecAuthInvalid-JWT",
+                "headers": [
+                  {
+                    "enabled": true,
+                    "name": "Accept-Encoding",
+                    "value": "*/*"
+                  },
+                  {
+                    "enabled": true,
+                    "name": "Authorization",
+                    "value": "Bearer untoken.test.ahah"
+                  }
+                ],
+                "assertions": [
+                  {
+                    "comparison": "Equals",
+                    "subject": "ResponseStatus",
+                    "path": "code",
+                    "value": "401"
+                  },
+                  {
+                    "comparison": "Exists",
+                    "subject": "ResponseBody",
+                    "path": "content",
+                    "value": "200"
+                  },
+                  {
+                    "comparison": "Contains",
+                    "subject": "ResponseHeader",
+                    "path": "content-type",
+                    "value": "application/json"
+                  },
+                  {
+                    "comparison": "Equals",
+                    "subject": "ResponseJsonBody",
+                    "path": "$.message",
+                    "value": "Invalid JWT Token"
+                  },
+                  {
+                    "comparison": "Equals",
+                    "subject": "ResponseJsonBody",
+                    "path": "$.code",
+                    "value": "401"
+                  }
+                ]
+              }
+            },
+            {
+              "entity": {
+                "type": "Request",
+                "method": {
+                  "link": "http://tools.ietf.org/html/rfc7231#section-4.3.1",
+                  "name": "GET"
+                },
+                "body": {
+                  "formBody": {
+                    "overrideContentType": true,
+                    "encoding": "application/x-www-form-urlencoded",
+                    "items": []
+                  },
+                  "bodyType": "Text"
+                },
+                "uri": {
+                  "query": {
+                    "delimiter": "&",
+                    "items": []
+                  },
+                  "scheme": {
+                    "name": "${'protocol'}"
+                  },
+                  "host": "${'host'}",
+                  "path": "/${'path'}/fraisforfaits"
+                },
+                "id": "2094dd7d-a4f6-4aed-9ba3-d616f2b1f121",
+                "name": "GET-FF-Tous-AvecAuthInvalid-header",
+                "headers": [
+                  {
+                    "enabled": true,
+                    "name": "Accept-Encoding",
+                    "value": "*/*"
+                  },
+                  {
+                    "enabled": true,
+                    "name": "Authorization",
+                    "value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE3NzI3MDMzMDYsImV4cCI6MTc3MjcwNjkwNiwicm9sZXMiOlsiUk9MRV9WSVNJVEVVUiJdLCJ1c2VybmFtZSI6ImNiZWRvcyJ9.e-fj2-Iny6IJ2CgOp6NUxAEHgntu1CLtHfD69fHXprQ4ps7TTqkMaecwmb3vr5Sf3_D2qH2mpff8Pa_MxSgTTAp6QOG5Cp4VlqbWre0X88fAvHaNRGta1xugBwd46wD7DYcmSEARKeWOfCjQeRIpWhfS0pDfnrXvYeL8s8AFpj5BcpBo6lk-NKqHWGZ54mScHInaEp6a252Z0hFbsbgu3dWMCDbRhFoS1VH2QHOdH8ZzdT7NMikICDMyFzr-XZ-_cmf2PJ-1yZFnR92nwrs19iYfwBwq6t0zKX1XKxD1urNcz3iiCGFcphoVkavR3hVhSpk_yuqnB37ZlayEUD1aog"
+                  }
+                ],
+                "assertions": [
+                  {
+                    "comparison": "Equals",
+                    "subject": "ResponseStatus",
+                    "path": "code",
+                    "value": "401"
+                  },
+                  {
+                    "comparison": "Exists",
+                    "subject": "ResponseBody",
+                    "path": "content",
+                    "value": "200"
+                  },
+                  {
+                    "comparison": "Contains",
+                    "subject": "ResponseHeader",
+                    "path": "content-type",
+                    "value": "application/json"
+                  },
+                  {
+                    "comparison": "Equals",
+                    "subject": "ResponseJsonBody",
+                    "path": "$.message",
+                    "value": "Invalid JWT Token"
+                  },
+                  {
+                    "comparison": "Equals",
+                    "subject": "ResponseJsonBody",
+                    "path": "$.code",
+                    "value": "401"
+                  }
+                ]
+              }
+            },
+            {
+              "entity": {
+                "type": "Request",
+                "method": {
+                  "link": "http://tools.ietf.org/html/rfc7231#section-4.3.1",
+                  "name": "GET"
+                },
+                "body": {
+                  "formBody": {
+                    "overrideContentType": true,
+                    "encoding": "application/x-www-form-urlencoded",
+                    "items": []
+                  },
+                  "bodyType": "Text"
+                },
+                "uri": {
+                  "query": {
+                    "delimiter": "&",
+                    "items": []
+                  },
+                  "scheme": {
+                    "name": "${'protocol'}"
+                  },
+                  "host": "${'host'}",
+                  "path": "/${'path'}/fraisforfaits"
+                },
+                "id": "db0196fd-739f-4062-94a2-034e01ddf0f6",
+                "name": "GET-FF-Tous-AvecAuthInvalid-payload",
+                "headers": [
+                  {
+                    "enabled": true,
+                    "name": "Accept-Encoding",
+                    "value": "*/*"
+                  },
+                  {
+                    "enabled": true,
+                    "name": "Authorization",
+                    "value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJpYXQiOjE3NzI3MDMzMDYsImV4cCI6MTc3MjcwNjkwNiwicm9sZXMiOlsiUk9MRV9WSVNJVEVVUiIsIlJPTEVfQURNSU4iXSwidXNlcm5hbWUiOiJjYmVkb3MifQ.e-fj2-Iny6IJ2CgOp6NUxAEHgntu1CLtHfD69fHXprQ4ps7TTqkMaecwmb3vr5Sf3_D2qH2mpff8Pa_MxSgTTAp6QOG5Cp4VlqbWre0X88fAvHaNRGta1xugBwd46wD7DYcmSEARKeWOfCjQeRIpWhfS0pDfnrXvYeL8s8AFpj5BcpBo6lk-NKqHWGZ54mScHInaEp6a252Z0hFbsbgu3dWMCDbRhFoS1VH2QHOdH8ZzdT7NMikICDMyFzr-XZ-_cmf2PJ-1yZFnR92nwrs19iYfwBwq6t0zKX1XKxD1urNcz3iiCGFcphoVkavR3hVhSpk_yuqnB37ZlayEUD1aog"
+                  }
+                ],
+                "assertions": [
+                  {
+                    "comparison": "Equals",
+                    "subject": "ResponseStatus",
+                    "path": "code",
+                    "value": "401"
+                  },
+                  {
+                    "comparison": "Exists",
+                    "subject": "ResponseBody",
+                    "path": "content",
+                    "value": "200"
+                  },
+                  {
+                    "comparison": "Contains",
+                    "subject": "ResponseHeader",
+                    "path": "content-type",
+                    "value": "application/json"
+                  },
+                  {
+                    "comparison": "Equals",
+                    "subject": "ResponseJsonBody",
+                    "path": "$.message",
+                    "value": "Invalid JWT Token"
+                  },
+                  {
+                    "comparison": "Equals",
+                    "subject": "ResponseJsonBody",
+                    "path": "$.code",
+                    "value": "401"
+                  }
+                ]
+              }
+            },
+            {
+              "entity": {
+                "type": "Request",
+                "method": {
+                  "link": "http://tools.ietf.org/html/rfc7231#section-4.3.1",
+                  "name": "GET"
+                },
+                "body": {
+                  "formBody": {
+                    "overrideContentType": true,
+                    "encoding": "application/x-www-form-urlencoded",
+                    "items": []
+                  },
+                  "bodyType": "Text"
+                },
+                "uri": {
+                  "query": {
+                    "delimiter": "&",
+                    "items": []
+                  },
+                  "scheme": {
+                    "name": "${'protocol'}"
+                  },
+                  "host": "${'host'}",
+                  "path": "/${'path'}/fraisforfaits"
+                },
+                "id": "5305fafa-54bb-445f-a2bd-10837d5cd7fd",
+                "name": "GET-FF-Tous-AvecAuthValid",
+                "headers": [
+                  {
+                    "enabled": true,
+                    "name": "Accept-Encoding",
+                    "value": "*/*"
+                  },
+                  {
+                    "enabled": true,
+                    "name": "Authorization",
+                    "value": "Bearer ${token}"
+                  }
+                ],
+                "assertions": [
+                  {
+                    "comparison": "Equals",
+                    "subject": "ResponseStatus",
+                    "path": "code",
+                    "value": "200"
+                  },
+                  {
+                    "comparison": "Exists",
+                    "subject": "ResponseBody",
+                    "path": "content",
+                    "value": "200"
+                  },
+                  {
+                    "comparison": "Contains",
+                    "subject": "ResponseHeader",
+                    "path": "content-type",
+                    "value": "application/json"
+                  },
+                  {
+                    "comparison": "Equals",
+                    "subject": "ResponseJsonBody",
+                    "path": "$.message",
+                    "value": "OK"
+                  },
+                  {
+                    "comparison": "Exists",
+                    "subject": "ResponseJsonBody",
+                    "path": "$.data",
+                    "value": "4"
+                  },
+                  {
+                    "comparison": "LengthGreaterThanOrEqual",
+                    "subject": "ResponseJsonBody",
+                    "path": "$.data",
+                    "value": "1"
+                  },
+                  {
+                    "comparison": "Exists",
+                    "subject": "ResponseJsonBody",
+                    "path": "$.data[0].id",
+                    "value": "200"
+                  },
+                  {
+                    "comparison": "Exists",
+                    "subject": "ResponseJsonBody",
+                    "path": "$.data[0].libelle",
+                    "value": "200"
+                  },
+                  {
+                    "comparison": "Exists",
+                    "subject": "ResponseJsonBody",
+                    "path": "$.data[0].montant",
+                    "value": "200"
+                  }
+                ]
+              }
+            },
+            {
+              "entity": {
+                "type": "Request",
+                "method": {
+                  "link": "http://tools.ietf.org/html/rfc7231#section-4.3.1",
+                  "name": "GET"
+                },
+                "body": {
+                  "formBody": {
+                    "overrideContentType": true,
+                    "encoding": "application/x-www-form-urlencoded",
+                    "items": []
+                  },
+                  "bodyType": "Text"
+                },
+                "uri": {
+                  "query": {
+                    "delimiter": "&",
+                    "items": []
+                  },
+                  "scheme": {
+                    "name": "${'protocol'}"
+                  },
+                  "host": "${'host'}",
+                  "path": "/${'path'}/fraisforfaits"
+                },
+                "id": "9a86f8fe-7038-40ea-97bd-339c44f05eb3",
+                "name": "Get-FF-Tous-SansAuth",
+                "headers": [
+                  {
+                    "enabled": true,
+                    "name": "Accept-Encoding",
+                    "value": "*/*"
+                  }
+                ],
+                "assertions": [
+                  {
+                    "comparison": "Equals",
+                    "subject": "ResponseStatus",
+                    "path": "code",
+                    "value": "401"
+                  },
+                  {
+                    "comparison": "Equals",
+                    "subject": "ResponseJsonBody",
+                    "path": "$.message",
+                    "value": "JWT Token not found"
+                  },
+                  {
+                    "comparison": "Equals",
+                    "subject": "ResponseJsonBody",
+                    "path": "$.code",
+                    "value": "401"
+                  }
+                ]
+              }
+            },
+            {
+              "entity": {
+                "type": "Request",
+                "method": {
+                  "requestBody": true,
+                  "link": "http://tools.ietf.org/html/rfc7231#section-4.3.3",
+                  "name": "POST"
+                },
+                "body": {
+                  "formBody": {
+                    "overrideContentType": true,
+                    "encoding": "application/x-www-form-urlencoded",
+                    "items": []
+                  },
+                  "bodyType": "Text",
+                  "textBody": "{\n  \"login\": \"cbedos\",\n  \"password\": \"pass\"\n}"
+                },
+                "uri": {
+                  "query": {
+                    "delimiter": "&",
+                    "items": []
+                  },
+                  "scheme": {
+                    "name": "${'protocol'}"
+                  },
+                  "host": "${'host'}",
+                  "path": "/${'path'}/login"
+                },
+                "id": "386d332f-f2ba-4710-927e-c5b4383cd6ef",
+                "name": "login-cbedos-failed",
+                "headers": [
+                  {
+                    "enabled": true,
+                    "name": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "assertions": [
+                  {
+                    "comparison": "Equals",
+                    "subject": "ResponseStatus",
+                    "path": "code",
+                    "value": "401"
+                  },
+                  {
+                    "comparison": "Equals",
+                    "subject": "ResponseJsonBody",
+                    "path": "$.code",
+                    "value": "401"
+                  },
+                  {
+                    "comparison": "Exists",
+                    "subject": "ResponseJsonBody",
+                    "path": "$.message",
+                    "value": "200"
+                  },
+                  {
+                    "comparison": "Equals",
+                    "subject": "ResponseJsonBody",
+                    "path": "$.message",
+                    "value": "Identifiants invalides."
+                  }
+                ]
+              }
+            },
+            {
+              "entity": {
+                "type": "Request",
+                "method": {
+                  "requestBody": true,
+                  "link": "http://tools.ietf.org/html/rfc7231#section-4.3.3",
+                  "name": "POST"
+                },
+                "body": {
+                  "formBody": {
+                    "overrideContentType": true,
+                    "encoding": "application/x-www-form-urlencoded",
+                    "items": []
+                  },
+                  "bodyType": "Text",
+                  "textBody": "{\n  \"login\": \"cbedos\",\n  \"password\": \"passe\"\n}"
+                },
+                "uri": {
+                  "query": {
+                    "delimiter": "&",
+                    "items": []
+                  },
+                  "scheme": {
+                    "name": "${'protocol'}"
+                  },
+                  "host": "${'host'}",
+                  "path": "/${'path'}/login"
+                },
+                "id": "2784abc9-3335-47da-95f8-eb6bd90f0b96",
+                "name": "login-cbedos-successful",
+                "headers": [
+                  {
+                    "enabled": true,
+                    "name": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "assertions": [
+                  {
+                    "comparison": "Equals",
+                    "subject": "ResponseStatus",
+                    "path": "code",
+                    "value": "200"
+                  },
+                  {
+                    "comparison": "Exists",
+                    "subject": "ResponseJsonBody",
+                    "path": "$.token",
+                    "value": "200"
+                  },
+                  {
+                    "comparison": "Matches",
+                    "subject": "ResponseJsonBody",
+                    "path": "$.token",
+                    "value": "/(^[\\w-]*\\.[\\w-]*\\.[\\w-]*$)/"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
