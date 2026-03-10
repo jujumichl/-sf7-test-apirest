@@ -26,3 +26,10 @@ INSERT INTO FicheFrais (`id`, `visiteur_id`, `mois`, `nbJustificatifs`, `montant
 (7, 'a55', '201706', 11, 3716.14, '2017-08-07', 'RB'),
 (8, 'a55', '201707', 6, 3355.24, '2017-08-03', 'VA'),
 (9, 'a55', '201708', 6, 0.00, '2017-08-08', 'CR');
+INSERT INTO Role (id, libelle) VALUES
+(1, 'ROLE_VISITEUR'),
+(2, 'ROLE_ADMIN');
+INSERT INTO visiteur_role (visiteur_id, role_id) VALUES 
+('a17', 1),
+('a55', 1),
+('a55', 2);
