@@ -2,6 +2,7 @@
 
 namespace App\Tests;
 
+use App\Entity\Role;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\Attributes\DataProvider;
@@ -83,10 +84,12 @@ class VisiteurTest extends KernelTestCase
     public function getRoles(): void
     {
         $unVisiteur = new Visiteur();
+        $unRole = new Role();
         $unVisiteur->setLogin('dandre')
                     ->setNom('David')
                     ->setPrenom('André')
-                    ->setMdp('passe');
+                    ->setMdp('passe')
+                    ->addRoleUtilisateur($unRole->setLibelle('ROLE_VISITEUR'));
         
         self::assertEquals(['ROLE_VISITEUR'], $unVisiteur->getRoles(), "Le rôle doit être retourné");
     }

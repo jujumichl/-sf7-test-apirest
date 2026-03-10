@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Form\DataTransformer\CollectionToArrayTransformer;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Serializer\Attribute\SerializedName;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -238,7 +239,9 @@ class Visiteur implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function getRoles():array
     {
-        return ['ROLE_VISITEUR'];
+        $roleCollection = $this->getRoleUtilisateur();
+        $toarra = $roleCollection->toArray();
+        return $toarra;
     }
 
     /**
