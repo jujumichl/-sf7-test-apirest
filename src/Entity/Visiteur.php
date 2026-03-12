@@ -240,8 +240,11 @@ class Visiteur implements UserInterface, PasswordAuthenticatedUserInterface
     public function getRoles():array
     {
         $roleCollection = $this->getRoleUtilisateur();
-        $toarra = $roleCollection->toArray();
-        return $toarra;
+        $array = [];
+        foreach ($roleCollection as $role){
+            array_push($array, $role->getLibelle());
+        }
+        return $array;
     }
 
     /**

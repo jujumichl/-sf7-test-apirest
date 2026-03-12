@@ -85,13 +85,20 @@ class VisiteurTest extends KernelTestCase
     {
         $unVisiteur = new Visiteur();
         $unRole = new Role();
+        $unRole->setLibelle("ROLE_VISITEUR");
         $unVisiteur->setLogin('dandre')
                     ->setNom('David')
                     ->setPrenom('André')
                     ->setMdp('passe')
-                    ->addRoleUtilisateur($unRole->setLibelle('ROLE_VISITEUR'));
+                    ->addRoleUtilisateur($unRole);
         
         self::assertEquals(['ROLE_VISITEUR'], $unVisiteur->getRoles(), "Le rôle doit être retourné");
+
+        
+        $deuxRole = new Role();
+        $deuxRole->setLibelle("ROLE_ADMIN");
+        $unVisiteur->addRoleUtilisateur($deuxRole);
+        self::assertEquals(['ROLE_VISITEUR', 'ROLE_ADMIN'], $unVisiteur->getRoles(), "Les rôles doivent tous êtres retourner");
     }
 
 }
